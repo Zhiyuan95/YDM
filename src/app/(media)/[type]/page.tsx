@@ -7,12 +7,8 @@ import Link from "next/link";
 import { 
   ChevronRight, 
   ChevronDown, 
-  Landmark, 
-  Search, 
-  Menu, 
   Calendar as CalendarIcon, 
   MapPin, 
-  ZoomIn, 
   Home, 
   Image as ImageIcon, 
   Film, 

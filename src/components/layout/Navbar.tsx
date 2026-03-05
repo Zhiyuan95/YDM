@@ -2,6 +2,7 @@
 
 import React, { Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 function NavLinks() {
@@ -50,12 +51,13 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
     <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-zinc-100 z-50 flex items-center justify-between px-6 sm:px-10">
       {/* Left: Logo */}
       <Link href="/" className="flex items-center space-x-2">
-        {/* A simple placeholder logo using CSS */}
-        <div className="flex gap-0.5">
-          <div className="w-2 h-5 rounded-full bg-orange-400"></div>
-          <div className="w-2 h-7 rounded-full bg-red-500 transform translate-y-1"></div>
-          <div className="w-2 h-5 rounded-full bg-blue-500"></div>
-        </div>
+        <Image
+          src="/度母之光功德会.png"
+          alt="Logo"
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
         <div className="flex flex-col ml-1 leading-none">
           <span className="font-serif text-xl sm:text-2xl font-bold tracking-widest text-[#5c1c1c]">
             度母之光

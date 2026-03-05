@@ -21,14 +21,14 @@ export default async function AuthButton() {
         href="/admin/login"
         className="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors bg-white/50 px-3 py-1.5 border border-zinc-200 rounded-full shadow-sm"
       >
-        Sign In
+        登录
       </Link>
     );
   }
 
   return (
     <div className="flex items-center gap-3 bg-white/50 px-3 py-1.5 border border-zinc-200 rounded-full shadow-sm backdrop-blur-sm">
-      <Link 
+      <Link
         href="/admin/upload"
         className="flex items-center text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
       >

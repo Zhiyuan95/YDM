@@ -85,14 +85,14 @@ export default function SearchBar() {
             }`}
           >
             <SlidersHorizontal className="w-4 h-4 mr-2" />
-            Advanced
+            高级搜索 
           </button>
           
           <button 
             type="submit" 
             className="flex-1 sm:flex-none bg-zinc-900 text-white px-8 py-3 sm:py-2.5 rounded-full text-sm font-medium hover:bg-zinc-800 transition-colors shadow-sm"
           >
-            Explore
+            探索
           </button>
         </div>
       </form>
