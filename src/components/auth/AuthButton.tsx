@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LogOut, Settings } from "lucide-react";
+import { CloudUpload } from "lucide-react";
+import SignOutButton from "@/components/auth/SignOutButton";
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -31,15 +32,12 @@ export default async function AuthButton() {
         href="/admin/upload"
         className="flex items-center text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors"
       >
-        <Settings className="w-4 h-4 mr-1.5" />
-        Admin
+        <CloudUpload className="w-4 h-4 mr-1.5" />
+        上传
       </Link>
       <div className="w-px h-4 bg-zinc-300"></div>
       <form action={signOut}>
-        <button className="flex items-center text-sm font-medium text-zinc-600 hover:text-red-600 transition-colors">
-          <LogOut className="w-4 h-4 mr-1.5" />
-          Sign Out
-        </button>
+        <SignOutButton signOutAction={signOut} />
       </form>
     </div>
   );

@@ -9,9 +9,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  
+  /* Custom User Theme Colors */
+  --color-primary: #d41111;
+  --color-background-light: #f8f6f6;
+  --color-background-dark: #221010;
+
   --font-sans: var(--font-geist-sans);
   --font-serif: var(--font-playfair);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-newsreader);
 }
 
 body {

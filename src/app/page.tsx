@@ -5,6 +5,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { MapPin, Calendar, BookOpen } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import Navbar from "@/components/layout/Navbar";
 import AuthButton from "@/components/auth/AuthButton";
 import SearchBar from "@/components/discovery/SearchBar";
 import TimelineSlider from "@/components/discovery/TimelineSlider";
@@ -28,7 +29,7 @@ interface PageProps {
 export default async function DiscoveryPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const supabase = await createClient();
-  
+
   let query = supabase
     .from("archive_assets")
     .select("*")
@@ -50,7 +51,11 @@ export default async function DiscoveryPage({ searchParams }: PageProps) {
   const { data: assets, error } = await query;
 
   if (error) {
-    return <div className="p-8 text-red-500">Failed to load archive: {error.message}</div>;
+    return (
+      <div className="p-8 text-red-500">
+        Failed to load archive: {error.message}
+      </div>
+    );
   }
 
   // Fetch images specifically for the hero moving gallery (limit to 10 recent images)
@@ -61,11 +66,11 @@ export default async function DiscoveryPage({ searchParams }: PageProps) {
     .eq("status", "published")
     .order("created_at", { ascending: false })
     .limit(10);
-    
-  const galleryImages = (galleryAssets || []).map(asset => ({
+
+  const galleryImages = (galleryAssets || []).map((asset) => ({
     id: asset.id,
     title: asset.title,
-    url: `/api/image/${asset.id}`
+    url: `/api/image/${asset.id}`,
   }));
 
   // Generate short-lived signed URLs for Video/Audio safely to support range-requests.
@@ -78,7 +83,7 @@ export default async function DiscoveryPage({ searchParams }: PageProps) {
       if (asset.media_type === "document") {
         return { ...asset, url: "" };
       }
-      
+
       try {
         const command = new GetObjectCommand({
           Bucket: R2_BUCKET_NAME,
@@ -90,31 +95,58 @@ export default async function DiscoveryPage({ searchParams }: PageProps) {
         console.error("Failed to sign url for", asset.id);
         return { ...asset, url: "" };
       }
-    })
+    }),
   );
 
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 pb-20 relative">
-      
-      {/* Top Navigation / Auth / User Management */}
-      <div className="absolute top-6 right-6 sm:right-8 z-10">
+    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 pb-20 relative pt-16">
+      {/* Top Navigation / Media Links / User Management */}
+      <Navbar>
         <AuthButton />
+      </Navbar>
+
+      {/* Hero Banner / Gallery */}
+      <div className="relative w-full">
+        {galleryImages.length > 0 ? (
+          <HeroGallery images={galleryImages}>
+            <div className="max-w-2xl">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif tracking-tight mb-6 leading-tight">
+                度母之光
+                <span className="block text-2xl md:text-3xl text-zinc-400 mt-2 font-light">
+                  Digital Archive
+                </span>
+              </h1>
+              <p className="text-zinc-300 text-lg sm:text-xl font-light leading-relaxed mb-8">
+                An exploration of historical and modern media. Documenting
+                stories, places, and times.
+              </p>
+            </div>
+          </HeroGallery>
+        ) : (
+          <div className="w-full h-[50vh] min-h-[450px] bg-black flex flex-col justify-center px-8 sm:px-16 text-white">
+            <div className="max-w-2xl relative z-20">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif tracking-tight mb-6 leading-tight">
+                度母之光
+                <span className="block text-2xl md:text-3xl text-zinc-400 mt-2 font-light">
+                  Digital Archive
+                </span>
+              </h1>
+              <p className="text-zinc-300 text-lg sm:text-xl font-light leading-relaxed mb-8">
+                An exploration of historical and modern media. Documenting
+                stories, places, and times.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="mt-16">
+        <SearchBar />
       </div>
 
-      {/* Header */}
-      <header className="px-4 sm:px-8 py-16 pt-24 text-center max-w-5xl mx-auto">
-        <h1 className="text-4xl font-serif tracking-tight mb-4">度母之光</h1>
-        <p className="text-zinc-500 text-lg mb-12">
-          An exploration of historical and modern media. Documenting stories, places, and times.
-        </p>
-
-        {galleryImages.length > 0 && <HeroGallery images={galleryImages} />}
-        
-        <SearchBar />
-      </header>
-
-      {/* Fortepan Style Timeline */}
-      <TimelineSlider startYear={1900} endYear={new Date().getFullYear()} />
+      {/* Fortepan Style Timeline (Pushed down slightly to account for overlapped searchbar) */}
+      <div className="mt-16">
+        <TimelineSlider startYear={1900} endYear={new Date().getFullYear()} />
+      </div>
 
       {/* Masonry Grid */}
       <main className="px-4 sm:px-6 lg:px-8 max-w-screen-2xl mx-auto min-h-screen">
@@ -125,36 +157,42 @@ export default async function DiscoveryPage({ searchParams }: PageProps) {
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
             {items.map((item, index) => (
-              <div 
-                key={item.id} 
+              <div
+                key={item.id}
                 className="break-inside-avoid relative group bg-white rounded-xl overflow-hidden shadow-sm border border-zinc-100 transition-all hover:shadow-md animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 {/* Media Render */}
                 {item.media_type === "document" ? (
                   <Link href={`/read/${item.id}`} className="block">
-                    <div className="w-full bg-zinc-100 flex flex-col items-center justify-center py-20 px-8 text-zinc-400 group-hover:bg-zinc-200 transition-colors">
-                      <svg className="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                      <span className="text-sm font-medium">Read Document</span>
+                    <div className="w-full aspect-[4/3] bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center p-12 group-hover:bg-zinc-200 transition-colors">
+                      <Image 
+                        src="/document_thumbnail.png"
+                        alt={item.title}
+                        width={400}
+                        height={400}
+                        unoptimized // static local asset
+                        className="w-full h-full object-contain drop-shadow-sm transition-transform duration-700 group-hover:scale-105"
+                      />
                     </div>
                   </Link>
                 ) : item.media_type === "video" ? (
                   <HoverVideo id={item.id} url={item.url} />
                 ) : item.media_type === "audio" ? (
-                  <audio 
-                    src={item.url} 
-                    controls 
-                    className="w-full mt-4 px-4 pb-4" 
+                  <audio
+                    src={item.url}
+                    controls
+                    className="w-full mt-4 px-4 pb-4"
                   />
                 ) : (
                   <Link href={`/asset/${item.id}`} className="block">
-                    <Image 
-                      src={item.url} 
+                    <Image
+                      src={item.url}
                       alt={item.title}
                       width={800}
                       height={800}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      style={{ width: '100%', height: 'auto' }}
+                      style={{ width: "100%", height: "auto" }}
                       className="bg-zinc-100 group-hover:brightness-95 transition-all"
                     />
                   </Link>
@@ -162,15 +200,21 @@ export default async function DiscoveryPage({ searchParams }: PageProps) {
 
                 {/* Overlay / Info */}
                 <div className="p-5">
-                  <h3 className="font-medium text-lg mb-2 leading-tight">{item.title}</h3>
-                  
+                  <h3 className="font-medium text-lg mb-2 leading-tight">
+                    {item.title}
+                  </h3>
+
                   {(item.year || item.location) && (
                     <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-500 mb-3 font-medium">
                       {item.year && (
-                         <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> {item.year}</span>
+                        <span className="flex items-center">
+                          <Calendar className="w-3 h-3 mr-1" /> {item.year}
+                        </span>
                       )}
                       {item.location && (
-                         <span className="flex items-center"><MapPin className="w-3 h-3 mr-1" /> {item.location}</span>
+                        <span className="flex items-center">
+                          <MapPin className="w-3 h-3 mr-1" /> {item.location}
+                        </span>
                       )}
                     </div>
                   )}
@@ -181,11 +225,14 @@ export default async function DiscoveryPage({ searchParams }: PageProps) {
                     </p>
                   )}
                   {item.media_type === "document" && (
-                     <div className="mt-4 pt-4 border-t border-zinc-100">
-                        <Link href={`/read/${item.id}`} className="text-xs font-semibold uppercase tracking-wider text-zinc-900 border-b border-zinc-900 pb-0.5 hover:text-zinc-500 hover:border-zinc-500 transition-colors">
-                          Open Reader
-                        </Link>
-                     </div>
+                    <div className="mt-4 pt-4 border-t border-zinc-100">
+                      <Link
+                        href={`/read/${item.id}`}
+                        className="text-xs font-semibold uppercase tracking-wider text-zinc-900 border-b border-zinc-900 pb-0.5 hover:text-zinc-500 hover:border-zinc-500 transition-colors"
+                      >
+                        Open Reader
+                      </Link>
+                    </div>
                   )}
                 </div>
               </div>
