@@ -27,7 +27,7 @@ export default function UppyUploader({ onUploadSuccess }: UppyUploaderProps) {
       autoProceed: false,
       restrictions: {
         maxNumberOfFiles: 10,
-        allowedFileTypes: ["image/*", "video/*", "audio/*"],
+        allowedFileTypes: ["image/*", "video/*", "audio/*", "text/*", ".md"],
       },
     }).use(AwsS3, {
       shouldUseMultipart: true,

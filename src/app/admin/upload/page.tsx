@@ -2,10 +2,11 @@
 
 import React, { useState } from "react";
 import UppyUploader from "@/components/uploader/UppyUploader";
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { Loader2, CheckCircle2 } from "lucide-react";
 
 export default function AdminUploadPage() {
+  const supabase = createClient();
   const [formData, setFormData] = useState({
     title: "",
     story: "",
@@ -130,6 +131,7 @@ export default function AdminUploadPage() {
                 <option value="image">Image</option>
                 <option value="video">Video</option>
                 <option value="audio">Audio</option>
+                <option value="document">Document (Markdown/Text)</option>
               </select>
             </div>
 

@@ -1,12 +1,15 @@
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { s3Client, R2_BUCKET_NAME } from "@/lib/s3";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar, BookOpen } from "lucide-react";
+import Link from "next/link";
+import AuthButton from "@/components/auth/AuthButton";
 
 export const revalidate = 0; // Disable caching for MVP
 
 export default async function DiscoveryPage() {
+  const supabase = await createClient();
   const { data: assets, error } = await supabase
     .from("archive_assets")
     .select("*")
@@ -35,11 +38,16 @@ export default async function DiscoveryPage() {
   );
 
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 pb-20">
+    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 pb-20 relative">
       
+      {/* Top Navigation / Auth / User Management */}
+      <div className="absolute top-6 right-6 sm:right-8 z-10">
+        <AuthButton />
+      </div>
+
       {/* Header */}
-      <header className="px-8 py-16 text-center max-w-2xl mx-auto">
-        <h1 className="text-4xl font-serif tracking-tight mb-4">Digital Archive</h1>
+      <header className="px-8 py-16 pt-24 text-center max-w-2xl mx-auto">
+        <h1 className="text-4xl font-serif tracking-tight mb-4">度母之光</h1>
         <p className="text-zinc-500 text-lg">
           An exploration of historical and modern media. Documenting stories, places, and times.
         </p>
@@ -59,7 +67,14 @@ export default async function DiscoveryPage() {
                 className="break-inside-avoid relative group bg-white rounded-xl overflow-hidden shadow-sm border border-zinc-100 transition-all hover:shadow-md"
               >
                 {/* Media Render */}
-                {item.media_type === "video" ? (
+                {item.media_type === "document" ? (
+                  <Link href={`/read/${item.id}`} className="block">
+                    <div className="w-full bg-zinc-100 flex flex-col items-center justify-center py-20 px-8 text-zinc-400 group-hover:bg-zinc-200 transition-colors">
+                      <svg className="w-12 h-12 mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                      <span className="text-sm font-medium">Read Document</span>
+                    </div>
+                  </Link>
+                ) : item.media_type === "video" ? (
                   <video 
                     src={item.url} 
                     controls 
@@ -101,6 +116,13 @@ export default async function DiscoveryPage() {
                     <p className="text-sm text-zinc-600 line-clamp-3 leading-relaxed">
                       {item.story}
                     </p>
+                  )}
+                  {item.media_type === "document" && (
+                     <div className="mt-4 pt-4 border-t border-zinc-100">
+                        <Link href={`/read/${item.id}`} className="text-xs font-semibold uppercase tracking-wider text-zinc-900 border-b border-zinc-900 pb-0.5 hover:text-zinc-500 hover:border-zinc-500 transition-colors">
+                          Open Reader
+                        </Link>
+                     </div>
                   )}
                 </div>
               </div>
