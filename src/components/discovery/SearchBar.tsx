@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, SlidersHorizontal, MapPin, Calendar, FileType, X } from "lucide-react";
+import React, { useState, useTransition } from "react";
+import { Search, SlidersHorizontal, MapPin, Calendar, FileType, X, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SearchBar() {
@@ -9,6 +9,7 @@ export default function SearchBar() {
   const searchParams = useSearchParams();
   
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [query, setQuery] = useState(searchParams.get("q") || "");
   const [title, setTitle] = useState(searchParams.get("title") || "");
   const [story, setStory] = useState(searchParams.get("story") || "");
@@ -29,7 +30,9 @@ export default function SearchBar() {
     if (yearEnd) params.set("yearEnd", yearEnd);
     if (mediaType) params.set("mediaType", mediaType);
 
-    router.push(`/?${params.toString()}`);
+    startTransition(() => {
+      router.push(`/?${params.toString()}`);
+    });
   };
 
   const clearSearch = () => {
