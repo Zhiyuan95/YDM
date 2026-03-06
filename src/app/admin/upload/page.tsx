@@ -82,9 +82,9 @@ export default function AdminUploadPage() {
       <div className="w-full max-w-3xl bg-white rounded-2xl shadow-sm border border-zinc-200 overflow-hidden">
         
         <div className="px-8 py-6 border-b border-zinc-100">
-          <h1 className="text-2xl font-semibold tracking-tight">Archive Deposit</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">资料捐赠</h1>
           <p className="text-sm text-zinc-500 mt-1">
-            Upload new media assets and provide archival context.
+            上传新的历史影像资料，并提供相关的背景信息。
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export default function AdminUploadPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2 md:col-span-2">
               <label htmlFor="title" className="block text-sm font-medium text-zinc-700">
-                Title <span className="text-red-500">*</span>
+                标题 <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -102,12 +102,12 @@ export default function AdminUploadPage() {
                 value={formData.title}
                 onChange={handleInputChange}
                 className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 transition-colors"
-                placeholder="e.g. Vintage Street Scene"
+                placeholder="请输入标题"
               />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="year" className="block text-sm font-medium text-zinc-700">Year</label>
+              <label htmlFor="year" className="block text-sm font-medium text-zinc-700">年代</label>
               <input
                 type="number"
                 id="year"
@@ -120,7 +120,7 @@ export default function AdminUploadPage() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="location" className="block text-sm font-medium text-zinc-700">Location</label>
+              <label htmlFor="location" className="block text-sm font-medium text-zinc-700">地点</label>
               <input
                 type="text"
                 id="location"
@@ -128,12 +128,12 @@ export default function AdminUploadPage() {
                 value={formData.location}
                 onChange={handleInputChange}
                 className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 transition-colors"
-                placeholder="City, Country"
+                placeholder="城市, 国家"
               />
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label htmlFor="media_type" className="block text-sm font-medium text-zinc-700">Media Type</label>
+              <label htmlFor="media_type" className="block text-sm font-medium text-zinc-700">媒体类型</label>
               <select
                 id="media_type"
                 name="media_type"
@@ -141,15 +141,15 @@ export default function AdminUploadPage() {
                 onChange={handleInputChange}
                 className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 transition-colors"
               >
-                <option value="image">Image</option>
-                <option value="video">Video</option>
-                <option value="audio">Audio</option>
-                <option value="document">Document (Markdown/Text)</option>
+                <option value="image">图片</option>
+                <option value="video">视频</option>
+                <option value="audio">音频</option>
+                <option value="document">文档</option>
               </select>
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <label htmlFor="story" className="block text-sm font-medium text-zinc-700">Archival Story</label>
+              <label htmlFor="story" className="block text-sm font-medium text-zinc-700">故事</label>
               <textarea
                 id="story"
                 name="story"
@@ -157,13 +157,13 @@ export default function AdminUploadPage() {
                 onChange={handleInputChange}
                 rows={4}
                 className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none focus:ring-1 focus:ring-zinc-900 transition-colors"
-                placeholder="Describe the historical context or story behind this media..."
+                placeholder="描述这个媒体的历史背景或故事..."
               />
             </div>
           </div>
 
           <div className="pt-6 border-t border-zinc-100">
-            <h2 className="text-sm font-medium text-zinc-700 mb-4">Upload Media</h2>
+            <h2 className="text-sm font-medium text-zinc-700 mb-4">上传媒体</h2>
             {/* Uppy Component */}
             <UppyUploader onUploadSuccess={handleUploadSuccess} />
           </div>
@@ -172,7 +172,7 @@ export default function AdminUploadPage() {
           {isSubmitting && (
             <div className="flex items-center text-zinc-500 text-sm mt-4">
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Saving metadata to archive...
+              正在保存到档案馆...
             </div>
           )}
           
