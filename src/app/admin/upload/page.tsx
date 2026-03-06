@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import UppyUploader from "@/components/uploader/UppyUploader";
+import dynamic from "next/dynamic";
+const UppyUploader = dynamic(() => import("@/components/uploader/UppyUploader"), { 
+  ssr: false, 
+  loading: () => <div className="h-64 flex items-center justify-center bg-slate-50 border border-dashed rounded-lg text-slate-400">Loading uploader...</div> 
+});
 import { createClient } from "@/lib/supabase/client";
 import { Loader2, CheckCircle2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
