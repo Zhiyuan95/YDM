@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, ChevronDown, Calendar, MapPin, Play, Eye, Bookmark, PlayCircle } from "lucide-react";
+import { ChevronRight, Calendar, MapPin, Play, Eye, Bookmark, PlayCircle } from "lucide-react";
+import UnifiedCategoryFilter from "./UnifiedCategoryFilter";
 import HoverVideo from "./HoverVideo";
 
 export default function VideoArchiveView({ category, items, count }: { category: any, items: any[], count: number }) {
@@ -22,26 +23,25 @@ export default function VideoArchiveView({ category, items, count }: { category:
         </p>
       </div>
 
-      {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-10 pb-6 border-b border-[var(--color-primary)]/10 font-sans">
-        <div className="flex gap-3 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar w-full sm:w-auto">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg shadow-sm whitespace-nowrap">
-            <span className="text-sm font-medium">全部年代</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-black/20 border border-[var(--color-primary)]/20 rounded-lg hover:border-[var(--color-primary)] transition-colors whitespace-nowrap">
-            <span className="text-sm font-medium">地区选择</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-black/20 border border-[var(--color-primary)]/20 rounded-lg hover:border-[var(--color-primary)] transition-colors whitespace-nowrap">
-            <span className="text-sm font-medium">浏览热度</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="text-sm text-slate-500 w-full sm:w-auto text-left sm:text-right">
-          共找到 <span className="text-[var(--color-primary)] font-bold text-lg mx-1">{count || 0}</span> 份数字藏品
-        </div>
-      </div>
+      {/* Unified Search & Filter System */}
+      <UnifiedCategoryFilter 
+        totalCount={count}
+        quickTags={[
+          {label: '历史纪实', value: 'history'}, 
+          {label: '民俗文化', value: 'culture'}, 
+          {label: '口述历史', value: 'oral'}
+        ]}
+        yearOptions={[
+          {label: '2000年代及之前', value: 'pre-2000'}, 
+          {label: '2001-2010', value: '2000s'},
+          {label: '2011至今', value: 'post-2010'}
+        ]}
+        locationOptions={[
+          {label: '拉萨', value: '拉萨'}, 
+          {label: '日喀则', value: '日喀则'},
+          {label: '那曲', value: '那曲'}
+        ]}
+      />
 
       {/* List */}
       <div className="grid gap-8">

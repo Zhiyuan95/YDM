@@ -56,15 +56,52 @@ export default async function MediaCategoryPage({ params, searchParams }: PagePr
 
   const supabase = await createClient();
   
+  const searchParamsAwaited = await searchParams;
+  const queryParam = searchParamsAwaited.q;
+  const tagParam = searchParamsAwaited.tag;
+  const yearParam = searchParamsAwaited.year;
+  const locationParam = searchParamsAwaited.location;
+  const sortParam = searchParamsAwaited.sort || 'newest';
+
   // Base Query
-  let query = supabase
+  let dbQuery = supabase
     .from("archive_assets")
     .select("*", { count: "exact" })
     .eq("media_type", category.dbType)
-    .eq("status", "published")
-    .order("created_at", { ascending: false });
+    .eq("status", "published");
 
-  const { data: assets, error, count } = await query;
+  // Filter: Search Keyword
+  if (queryParam) {
+    dbQuery = dbQuery.or(`title.ilike.%${queryParam}%,story.ilike.%${queryParam}%,location.ilike.%${queryParam}%`);
+  }
+
+  // Filter: Tags (Array contains)
+  if (tagParam) {
+    dbQuery = dbQuery.contains("tags", [tagParam]);
+  }
+
+  // Filter: Year
+  if (yearParam) {
+    dbQuery = dbQuery.eq("year", yearParam);
+  }
+
+  // Filter: Location
+  if (locationParam) {
+    dbQuery = dbQuery.eq("location", locationParam);
+  }
+
+  // Sorting
+  if (sortParam === 'oldest') {
+    dbQuery = dbQuery.order("created_at", { ascending: true });
+  } else if (sortParam === 'popular') {
+    // Requires a view_count column. Fallback to title for demo purposes.
+    dbQuery = dbQuery.order("title", { ascending: true });
+  } else {
+    // default: newest
+    dbQuery = dbQuery.order("created_at", { ascending: false });
+  }
+
+  const { data: assets, error, count } = await dbQuery;
 
   if (error) {
     return <div className="p-8 text-red-500 font-display">Failed to load archive: {error.message}</div>;

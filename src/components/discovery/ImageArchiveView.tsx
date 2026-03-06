@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, ChevronDown, Calendar, MapPin } from "lucide-react";
-import HoverVideo from "./HoverVideo";
+import { ChevronRight, Calendar, MapPin } from "lucide-react";
+import UnifiedCategoryFilter from "./UnifiedCategoryFilter";
 
 export default function ImageArchiveView({ category, items, count }: { category: any, items: any[], count: number }) {
   return (
@@ -22,26 +22,26 @@ export default function ImageArchiveView({ category, items, count }: { category:
         </p>
       </div>
 
-      {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-10 pb-6 border-b border-[var(--color-primary)]/10 font-sans">
-        <div className="flex gap-3 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar w-full sm:w-auto">
-          <button className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg shadow-sm whitespace-nowrap">
-            <span className="text-sm font-medium">全部年代</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-black/20 border border-[var(--color-primary)]/20 rounded-lg hover:border-[var(--color-primary)] transition-colors whitespace-nowrap">
-            <span className="text-sm font-medium">地区选择</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-black/20 border border-[var(--color-primary)]/20 rounded-lg hover:border-[var(--color-primary)] transition-colors whitespace-nowrap">
-            <span className="text-sm font-medium">浏览热度</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-        </div>
-        <div className="text-sm text-slate-500 w-full sm:w-auto text-left sm:text-right">
-          共找到 <span className="text-[var(--color-primary)] font-bold text-lg mx-1">{count || 0}</span> 份数字藏品
-        </div>
-      </div>
+      {/* Unified Search & Filter System */}
+      <UnifiedCategoryFilter 
+        totalCount={count}
+        quickTags={[
+          {label: '人物肖像', value: 'portrait'}, 
+          {label: '历史事件', value: 'history'}, 
+          {label: '宗教艺术', value: 'religion'}, 
+          {label: '自然风光', value: 'nature'}
+        ]}
+        yearOptions={[
+          {label: '1980年代及之前', value: 'pre-1990'}, 
+          {label: '1990-2000', value: '1990s'},
+          {label: '2000年之后', value: 'post-2000'}
+        ]}
+        locationOptions={[
+          {label: '拉萨', value: '拉萨'}, 
+          {label: '日喀则', value: '日喀则'},
+          {label: '阿里', value: '阿里'}
+        ]}
+      />
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

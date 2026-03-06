@@ -90,7 +90,7 @@ export default function SearchBar() {
           
           <button 
             type="submit" 
-            className="flex-1 sm:flex-none bg-zinc-900 text-white px-8 py-3 sm:py-2.5 rounded-full text-sm font-medium hover:bg-zinc-800 transition-colors shadow-sm"
+            className="flex-1 sm:flex-none bg-[var(--color-primary)] text-white px-8 py-3 sm:py-2.5 rounded-full text-sm font-medium hover:bg-[var(--color-background-light)] hover:text-[var(--color-primary)] transition-colors shadow-sm"
           >
             探索
           </button>

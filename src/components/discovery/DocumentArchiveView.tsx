@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, History, Library, FileText, BookOpen, Download, Search } from "lucide-react";
+import { ChevronRight, History, Library, FileText, BookOpen, Download } from "lucide-react";
+import UnifiedCategoryFilter from "./UnifiedCategoryFilter";
 
 export default function DocumentArchiveView({ category, items, count }: { category: any, items: any[], count: number }) {
   return (
@@ -23,38 +24,19 @@ export default function DocumentArchiveView({ category, items, count }: { catego
           </p>
       </div>
 
-      {/* Category Tabs */}
-      <div className="mb-6 overflow-x-auto font-sans">
-        <div className="flex border-b border-[var(--color-primary)]/10 gap-8 whitespace-nowrap">
-          <button className="flex flex-col items-center justify-center border-b-2 border-[var(--color-primary)] text-slate-900 dark:text-slate-100 pb-3 pt-2">
-            <p className="text-sm font-bold tracking-wide">全部文献</p>
-          </button>
-          <button className="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 hover:text-[var(--color-primary)] pb-3 pt-2 transition-colors">
-            <p className="text-sm font-medium">珍稀古籍</p>
-          </button>
-          <button className="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 hover:text-[var(--color-primary)] pb-3 pt-2 transition-colors">
-            <p className="text-sm font-medium">经典经文</p>
-          </button>
-          <button className="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 hover:text-[var(--color-primary)] pb-3 pt-2 transition-colors">
-            <p className="text-sm font-medium">历史文献</p>
-          </button>
-        </div>
-      </div>
 
-      {/* Search Bar */}
-      <div className="mb-8 font-sans">
-        <label className="flex flex-col w-full group">
-          <div className="flex w-full items-stretch rounded-xl h-12 bg-white dark:bg-slate-800 shadow-sm border border-[var(--color-primary)]/10 group-focus-within:border-[var(--color-primary)]/40 transition-all">
-            <div className="text-[var(--color-primary)]/50 flex items-center justify-center pl-4">
-              <Search className="w-5 h-5" />
-            </div>
-            <input 
-              className="w-full bg-transparent border-none focus:ring-0 px-4 text-base placeholder:text-slate-400 outline-none" 
-              placeholder="搜索文献名称、作者或关键字..." 
-            />
-          </div>
-        </label>
-      </div>
+
+      {/* Unified Search & Filter System */}
+      <UnifiedCategoryFilter 
+        placeholder="搜索文献名称、作者或关键字..."
+        totalCount={count}
+        quickTags={[
+          {label: '珍稀古籍', value: 'rare_book'}, 
+          {label: '经典经文', value: 'scripture'}, 
+          {label: '历史文献', value: 'history_doc'}, 
+          {label: '现代手稿', value: 'manuscript'}
+        ]}
+      />
 
       {/* Document List */}
       <div className="space-y-4">

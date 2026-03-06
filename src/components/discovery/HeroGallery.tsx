@@ -16,8 +16,10 @@ export default function HeroGallery({ images, children }: HeroGalleryProps) {
   const duplicatedImages = [...images, ...images];
 
   return (
-    <div className="w-full relative bg-black h-[50vh] min-h-[450px] lg:h-[60vh] flex items-center overflow-hidden">
-       <style dangerouslySetInnerHTML={{__html: `
+    <div className="w-full relative  h-[50vh] min-h-[450px] lg:h-[60vh] flex items-center overflow-hidden">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @keyframes slowPan {
           0% { transform: translateX(0); }
           100% { transform: translateX(calc(-50% - 1rem)); }
@@ -28,13 +30,15 @@ export default function HeroGallery({ images, children }: HeroGalleryProps) {
         .animate-slowPan:hover {
           animation-play-state: paused;
         }
-      `}} />
-      
+      `,
+        }}
+      />
+
       {/* Sliding Images Container (Shifted right logically by gradient) */}
       <div className="absolute inset-0 z-0 flex gap-4 w-max animate-slowPan px-4 opacity-60">
         {duplicatedImages.map((img, idx) => (
-          <Link 
-            key={`${img.id}-${idx}`} 
+          <Link
+            key={`${img.id}-${idx}`}
             href={`/asset/${img.id}`}
             className="relative h-full aspect-[21/9] sm:aspect-video rounded-none overflow-hidden group shadow-sm flex-shrink-0"
           >
@@ -51,8 +55,10 @@ export default function HeroGallery({ images, children }: HeroGalleryProps) {
       </div>
 
       {/* Heavy Gradient Overlay to make left side black for text readability */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-black via-black/80 lg:via-black/90 to-transparent/30 pointer-events-none" />
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-transparent to-black/40 pointer-events-none" />
+      <div
+        className="absolute inset-0 z-10 bg-gradient-to-r from-[#7A1F1F] via-[#8C1D18]/80 to-[#C9A227]/10 pointer-events-none"
+      />
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#7A1F1F] via-transparent to-[#8C1D18]/40 pointer-events-none" />
 
       {/* Text Overlay Content */}
       <div className="relative z-20 w-full max-w-7xl mx-auto px-8 sm:px-12 md:px-16 flex flex-col justify-center h-full text-white">

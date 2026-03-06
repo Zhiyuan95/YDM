@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ChevronRight, Calendar, MapPin, Play } from "lucide-react";
+import UnifiedCategoryFilter from "./UnifiedCategoryFilter";
 
 export default function AudioArchiveView({ category, items, count }: { category: any, items: any[], count: number }) {
   return (
@@ -16,16 +17,25 @@ export default function AudioArchiveView({ category, items, count }: { category:
       {/* Page Title & Filter */}
       <div className="mb-10">
         <h2 className="text-3xl font-bold mb-2">{category.title}</h2>
-        <p className="text-slate-600 dark:text-slate-400 max-w-2xl font-sans">
+        <p className="text-slate-600 dark:text-slate-400 max-w-2xl font-sans mb-6">
           {category.desc}
         </p>
-        <div className="flex gap-3 mt-6 overflow-x-auto pb-2 hide-scrollbar font-sans">
-          <button className="px-5 py-2 rounded-full bg-[var(--color-primary)] text-white text-sm font-medium whitespace-nowrap shadow-sm">全部</button>
-          <button className="px-5 py-2 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-sm font-medium hover:bg-[var(--color-primary)]/20 transition-colors whitespace-nowrap">民间歌谣</button>
-          <button className="px-5 py-2 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-sm font-medium hover:bg-[var(--color-primary)]/20 transition-colors whitespace-nowrap">僧侣诵经</button>
-          <button className="px-5 py-2 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-sm font-medium hover:bg-[var(--color-primary)]/20 transition-colors whitespace-nowrap">格萨尔王传</button>
-          <button className="px-5 py-2 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-sm font-medium hover:bg-[var(--color-primary)]/20 transition-colors whitespace-nowrap">生活劳作</button>
-        </div>
+
+        {/* Unified Search & Filter System */}
+        <UnifiedCategoryFilter 
+          placeholder="搜索音频名称、录制地或关键字..."
+          totalCount={count}
+          quickTags={[
+            {label: '民间歌谣', value: 'folksong'}, 
+            {label: '僧侣诵经', value: 'chanting'}, 
+            {label: '格萨尔王传', value: 'gesar'}, 
+            {label: '生活劳作', value: 'labor'}
+          ]}
+          locationOptions={[
+            {label: '拉萨', value: '拉萨'}, 
+            {label: '果洛', value: '果洛'}
+          ]}
+        />
       </div>
 
       {/* Audio List */}
