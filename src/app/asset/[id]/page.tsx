@@ -58,23 +58,28 @@ export default async function AssetDetailPage({ params }: PageProps) {
   }
 
   // Identify adjacent assets for Next/Prev chronological navigation
-  const { data: nextItem } = await supabase
-    .from("archive_assets")
-    .select("id")
-    .eq("status", "published")
-    .gt("created_at", asset.created_at)
-    .order("created_at", { ascending: true })
-    .limit(1)
-    .single();
-
-  const { data: prevItem } = await supabase
-    .from("archive_assets")
-    .select("id")
-    .eq("status", "published")
-    .lt("created_at", asset.created_at)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+  // Fetch prev and next items in parallel (async-parallel optimization)
+  const [
+    { data: nextItem },
+    { data: prevItem }
+  ] = await Promise.all([
+    supabase
+      .from("archive_assets")
+      .select("id")
+      .eq("status", "published")
+      .gt("created_at", asset.created_at)
+      .order("created_at", { ascending: true })
+      .limit(1)
+      .single(),
+    supabase
+      .from("archive_assets")
+      .select("id")
+      .eq("status", "published")
+      .lt("created_at", asset.created_at)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single()
+  ]);
 
   return (
     <div className="flex flex-col md:flex-row w-full h-screen bg-black text-zinc-900 font-sans overflow-hidden">

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { useState, useTransition } from "react";
+import { Search, ChevronDown, Loader2 } from "lucide-react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 interface FilterOption {
@@ -36,6 +36,7 @@ export default function UnifiedCategoryFilter({
   const currentSort = searchParams.get('sort') || 'newest';
 
   const [localQuery, setLocalQuery] = useState(currentQuery);
+  const [isPending, startTransition] = useTransition();
 
   // Sync Search Bar
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -58,11 +59,14 @@ export default function UnifiedCategoryFilter({
 
     const search = current.toString();
     const queryStr = search ? `?${search}` : "";
-    router.push(`${pathname}${queryStr}`, { scroll: false });
+    
+    startTransition(() => {
+      router.push(`${pathname}${queryStr}`, { scroll: false });
+    });
   };
 
   return (
-    <div className="mb-10 font-sans flex flex-col gap-4">
+    <div className={`mb-10 font-sans flex flex-col gap-4 transition-opacity duration-300 ${isPending ? 'opacity-60' : 'opacity-100'}`}>
       
       {/* 1. Global Search Bar */}
       <form onSubmit={handleSearchSubmit} className="flex flex-col w-full group">
@@ -161,6 +165,7 @@ export default function UnifiedCategoryFilter({
       
       {/* Result Count Status */}
       <div className="text-sm text-slate-500 flex items-center justify-end font-display">
+         {isPending && <Loader2 className="w-4 h-4 mr-2 animate-spin animate-infinite text-[var(--color-primary)]" />}
          共找到 <span className="text-[var(--color-primary)] font-bold text-lg mx-1 tabular-nums">{totalCount}</span> 份数字藏品
       </div>
 
