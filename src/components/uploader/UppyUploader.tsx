@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Uppy from "@uppy/core";
 import Dashboard from "@uppy/react/dashboard";
 import AwsS3 from "@uppy/aws-s3";
-
 import "@uppy/core/css/style.css";
 import "@uppy/dashboard/css/style.css";
 

@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion } from "framer-motion";
-
 interface TimelineSliderProps {
   startYear?: number;
   endYear?: number;
