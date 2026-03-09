@@ -58,7 +58,7 @@ export default function SearchBar() {
           <Search className="w-5 h-5 text-zinc-400 mr-3 shrink-0" />
           <input 
             type="text" 
-            placeholder="Search stories, titles, or events..." 
+            placeholder="搜索故事、标题或事件..." 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full bg-transparent border-none outline-none text-zinc-900 placeholder:text-zinc-400 font-medium text-lg leading-relaxed"
@@ -108,13 +108,13 @@ export default function SearchBar() {
             {/* Title */}
             <div className="space-y-3">
               <label className="flex items-center text-sm font-semibold text-zinc-900 uppercase tracking-wider">
-                <Search className="w-4 h-4 mr-2 text-zinc-400" /> Exact Title
+                <Search className="w-4 h-4 mr-2 text-zinc-400" /> 标题
               </label>
               <input 
                 type="text" 
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Title contains..."
+                placeholder="标题包含..."
                 className="w-full bg-zinc-50 border-none rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 transition-all placeholder:text-zinc-400"
               />
             </div>
@@ -122,13 +122,13 @@ export default function SearchBar() {
             {/* Story */}
             <div className="space-y-3">
               <label className="flex items-center text-sm font-semibold text-zinc-900 uppercase tracking-wider">
-                <FileType className="w-4 h-4 mr-2 text-zinc-400" /> Story Content
+                <FileType className="w-4 h-4 mr-2 text-zinc-400" /> 故事
               </label>
               <input 
                 type="text" 
                 value={story}
                 onChange={(e) => setStory(e.target.value)}
-                placeholder="Story contains..."
+                placeholder="故事包含..."
                 className="w-full bg-zinc-50 border-none rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 transition-all placeholder:text-zinc-400"
               />
             </div>
@@ -136,13 +136,13 @@ export default function SearchBar() {
             {/* Location */}
             <div className="space-y-3">
               <label className="flex items-center text-sm font-semibold text-zinc-900 uppercase tracking-wider">
-                <MapPin className="w-4 h-4 mr-2 text-zinc-400" /> Location / Geo
+                <MapPin className="w-4 h-4 mr-2 text-zinc-400" /> 位置 / 地理
               </label>
               <input 
                 type="text" 
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder="Where did it happen?"
+                placeholder="位置包含..."
                 className="w-full bg-zinc-50 border-none rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 transition-all placeholder:text-zinc-400"
               />
             </div>
@@ -150,12 +150,12 @@ export default function SearchBar() {
             {/* Time / Year */}
             <div className="space-y-3">
               <label className="flex items-center text-sm font-semibold text-zinc-900 uppercase tracking-wider">
-                <Calendar className="w-4 h-4 mr-2 text-zinc-400" /> Time Period
+                <Calendar className="w-4 h-4 mr-2 text-zinc-400" /> 时间 / 年代
               </label>
               <div className="flex items-center gap-3">
                 <input 
                   type="number" 
-                  placeholder="From (YYYY)"
+                  placeholder="从 (YYYY)"
                   value={yearStart}
                   onChange={(e) => setYearStart(e.target.value)}
                   className="w-full bg-zinc-50 border-none rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 transition-all placeholder:text-zinc-400 text-center"
@@ -163,7 +163,7 @@ export default function SearchBar() {
                 <span className="text-zinc-300">-</span>
                 <input 
                   type="number" 
-                  placeholder="To (YYYY)"
+                  placeholder="到 (YYYY)"
                   value={yearEnd}
                   onChange={(e) => setYearEnd(e.target.value)}
                   className="w-full bg-zinc-50 border-none rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 transition-all placeholder:text-zinc-400 text-center"
@@ -174,14 +174,14 @@ export default function SearchBar() {
             {/* Type */}
             <div className="space-y-3">
               <label className="flex items-center text-sm font-semibold text-zinc-900 uppercase tracking-wider">
-                <FileType className="w-4 h-4 mr-2 text-zinc-400" /> Material Type
+                <FileType className="w-4 h-4 mr-2 text-zinc-400" /> 材料类型
               </label>
               <select 
                 value={mediaType}
                 onChange={(e) => setMediaType(e.target.value)}
                 className="w-full bg-zinc-50 border-none rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-zinc-200 transition-all text-zinc-900 cursor-pointer appearance-none"
               >
-                <option value="">All Formats</option>
+                <option value="">所有格式</option>
                 <option value="image">Photography & Images</option>
                 <option value="video">Moving Pictures (Video)</option>
                 <option value="audio">Oral Histories (Audio)</option>
@@ -203,7 +203,7 @@ export default function SearchBar() {
               }}
                className="text-sm font-medium px-6 py-2 bg-white border border-zinc-200 shadow-sm rounded-full text-zinc-900 hover:bg-zinc-50 transition-colors"
             >
-              Apply Filters
+              应用筛选
             </button>
           </div>
         </div>
